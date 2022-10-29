@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import json
 import os
-import string
+import subprocess
 
 import click
 import questionary
@@ -32,6 +32,9 @@ class MultipleOptions(click.Option):
 @click.argument('name')
 def get(name):
     click.echo('Getting ... ' + name)
+    subprocess.call("git clone https://github.com/DevDungeon/Cookbook " + name, shell=True)
+    with open(name + '/.pets', 'w') as f:
+        f.write('application_name: ' + name)
 
 
 @click.command()
@@ -75,17 +78,6 @@ def create_app(name, group, app_type):
 
 
 @click.command()
-@click.argument('hash-type')
-def describe_infra(hash_type):
-    click.echo('App infra ... ' + hash_type)
-
-
-@click.command()
-def upgrade():
-    click.echo('App infra ... ')
-
-
-@click.command()
 def get_token():
     click.echo(gitlab_token)
 
@@ -94,8 +86,6 @@ def register_commands():
     cli.add_command(groups)
     cli.add_command(create_app)
     cli.add_command(get)
-    cli.add_command(describe_infra)
-    # cli.add_command(upgrade)
     cli.add_command(get_token)
 
 
