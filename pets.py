@@ -16,7 +16,7 @@ def cli():
     pass
 
 
-class QuestionaryOption(click.Option):
+class MultipleOptions(click.Option):
 
     def __init__(self, param_decls=None, **attrs):
         click.Option.__init__(self, param_decls, **attrs)
@@ -29,22 +29,6 @@ class QuestionaryOption(click.Option):
 
 
 @click.command()
-@click.option('-n', '--name', required=True, prompt=True)
-@click.option('-g', '--group', required=True, prompt=True)
-@click.option('-t', '--app_type', required=True, prompt=True,
-              type=click.Choice(['backend', 'frontend'], case_sensitive=False), cls=QuestionaryOption)
-def create_app(name, group, app_type):
-    click.echo('Creating ' + name + ", please wait ...")
-    click.echo('\tGroup: ' + group)
-    click.echo('\tApplication Type: ' + app_type)
-    click.echo(click.style('Done', fg='green'))
-
-    click.echo('')
-    click.echo('To get app use')
-    click.echo(click.style('pets get ' + name, fg='cyan'))
-
-
-@click.command()
 @click.argument('name')
 def get(name):
     click.echo('Getting ... ' + name)
@@ -52,21 +36,42 @@ def get(name):
 
 @click.command()
 def groups():
+    click.echo(click.style('Listing groups ...', fg='cyan'))
+    result = get_groups()
+    for group in result:
+        print(group['name'])
+
+
+def get_groups():
     try:
-        click.echo("Listing groups ...")
         response = requests.get(pets_api_url + '/repositories/groups')
         response.raise_for_status()
 
         result = json.loads(response.text)
-        for group in result:
-            print(group['name'])
 
-        click.echo("")
+        return result
 
     except HTTPError as http_err:
         print(f'HTTP error occurred: {http_err}')
     except Exception as err:
         print(f'Other error occurred: {err}')
+
+
+@click.command()
+@click.option('-n', '--name', required=True, prompt=True)
+@click.option('-g', '--group', required=True, prompt=True,
+              type=click.Choice(list(map(lambda x: x['name'], get_groups())), case_sensitive=False),
+              cls=MultipleOptions)
+@click.option('-t', '--app_type', required=True, prompt=True,
+              type=click.Choice(['backend', 'frontend'], case_sensitive=False), cls=MultipleOptions)
+def create_app(name, group, app_type):
+    click.echo('Creating ' + name + ", please wait ...")
+    click.echo('\tGroup: ' + group)
+    click.echo('\tApplication Type: ' + app_type)
+    click.echo(click.style('Done', fg='green'))
+
+    click.echo('')
+    click.echo('To download app use ' + click.style('pets get ' + name, fg='cyan'))
 
 
 @click.command()
