@@ -5,7 +5,9 @@ import subprocess
 import click
 import questionary
 
-from clients.petsapiclient import *
+from petsapiclient import get_groups, get_app_types
+
+gitlab_url = "https://gitlab.tiendanimal.com:8088/"
 
 
 @click.group()
@@ -51,10 +53,11 @@ def groups():
               type=click.Choice(list(map(lambda x: x['name'], get_app_types())), case_sensitive=False),
               cls=MultipleOptions)
 def create_app(name, group, app_type):
-    click.echo('Creating ' + name + ", please wait ...")
+    click.echo('Creating app ... ')
+    click.echo('\tName: ' + name)
     click.echo('\tGroup: ' + group)
     click.echo('\tApplication Type: ' + app_type)
-    click.echo(click.style('Done', fg='green'))
+    click.echo(click.style('\tRepo Url: ' + gitlab_url + "/" + group + "/" + name, fg='cyan'))
 
     click.echo('')
     click.echo('To download app use ' + click.style('pets get ' + name, fg='cyan'))
