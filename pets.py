@@ -1,14 +1,11 @@
 #!/usr/bin/env python
-import json
 import os
 import subprocess
 
 import click
 import questionary
-import requests as requests
-from requests import HTTPError
 
-pets_api_url = "http://localhost:8080"
+from clients.petsapiclient import *
 
 
 @click.group()
@@ -45,28 +42,14 @@ def groups():
         print(group['name'])
 
 
-def get_groups():
-    try:
-        response = requests.get(pets_api_url + '/repositories/groups')
-        response.raise_for_status()
-
-        result = json.loads(response.text)
-
-        return result
-
-    except HTTPError as http_err:
-        print(f'HTTP error occurred: {http_err}')
-    except Exception as err:
-        print(f'Other error occurred: {err}')
-
-
 @click.command()
 @click.option('-n', '--name', required=True, prompt=True)
 @click.option('-g', '--group', required=True, prompt=True,
               type=click.Choice(list(map(lambda x: x['name'], get_groups())), case_sensitive=False),
               cls=MultipleOptions)
 @click.option('-t', '--app_type', required=True, prompt=True,
-              type=click.Choice(['backend', 'frontend'], case_sensitive=False), cls=MultipleOptions)
+              type=click.Choice(list(map(lambda x: x['name'], get_app_types())), case_sensitive=False),
+              cls=MultipleOptions)
 def create_app(name, group, app_type):
     click.echo('Creating ' + name + ", please wait ...")
     click.echo('\tGroup: ' + group)
