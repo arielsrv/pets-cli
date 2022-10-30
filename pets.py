@@ -8,8 +8,6 @@ import questionary
 import petsapiclient
 from petsapiclient import get_groups, get_app_types, get_app, create_app
 
-gitlab_url = "https://gitlab.tiendanimal.com:8088/"
-
 
 @click.group()
 def cli():

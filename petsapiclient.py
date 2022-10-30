@@ -1,9 +1,12 @@
+import http
 import json
 
+import click
 import requests
 from requests import HTTPError
 
 pets_api_url = "http://localhost:8080"
+gitlab_url = "https://gitlab.tiendanimal.com:8088/"
 
 
 def get_groups():
@@ -62,6 +65,11 @@ def create_app(name, group_id, app_type_id):
         return result
 
     except HTTPError as http_err:
+        if response.status_code == http.HTTPStatus.CONFLICT:
+            click.echo('')
+            click.echo(click.style("project " + name + " already exist", fg='red'))
+            raise SystemExit(0)
+
         print(f'HTTP error occurred: {http_err}')
     except Exception as err:
         print(f'Other error occurred: {err}')
