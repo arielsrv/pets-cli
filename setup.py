@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="pets",
-    version="0.0.3",
+    version="0.0.4",
     description="IskayPet CLI",
     py_modules=[
         "pets",

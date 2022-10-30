@@ -3,33 +3,23 @@ import os
 import subprocess
 
 import click
-import questionary
 
 from clients import PetApiClient
+from common import MultipleOptions
 
 petApiClient = PetApiClient('http://localhost:8080', 'https://gitlab.tiendanimal.com:8088/')
 
 
 @click.group()
-@click.version_option('0.0.3')
+@click.version_option('0.0.4')
 def cli():
     pass
-
-
-class MultipleOptions(click.Option):
-    def __init__(self, param_decls=None, **attrs):
-        click.Option.__init__(self, param_decls, **attrs)
-        if not isinstance(self.type, click.Choice):
-            raise Exception('ChoiceOption type arg must be click.Choice')
-
-    def prompt_for_value(self, ctx):
-        val = questionary.select(self.prompt, choices=self.type.choices).unsafe_ask()
-        return val
 
 
 @click.command()
 @click.argument('name')
 def get(name):
+    """Get IskayPet app"""
     click.echo('Getting ... ' + name)
     result = petApiClient.get_app(name)
     subprocess.call("git clone " + result['url'] + " " + name, shell=True)
@@ -39,6 +29,7 @@ def get(name):
 
 @click.command()
 def groups():
+    """List available groups."""
     click.echo(click.style('Listing groups ...', fg='cyan'))
     result = petApiClient.get_groups()
     for group in result:
@@ -54,6 +45,7 @@ def groups():
               type=click.Choice(list(map(lambda x: x['name'], petApiClient.get_app_types())), case_sensitive=False),
               cls=MultipleOptions)
 def create_app(name, group, app_type):
+    """Creates IskayPet app."""
     click.echo('Creating app ... ')
     click.echo('\tName: ' + name)
     click.echo('\tGroup: ' + group)
@@ -71,12 +63,14 @@ def create_app(name, group, app_type):
 
 @click.command()
 def get_token():
+    """Get IskayPet token."""
     click.echo(os.environ.get('GITLAB_TOKEN'))
 
 
 @click.command()
 def upgrade():
-    subprocess.call(["curl -o- https://raw.githubusercontent.com/arielsrv/pets-cli/v0.0.3/install.sh | bash"],
+    """Upgrade pets-cli to the latest version."""
+    subprocess.call(["curl -o- https://raw.githubusercontent.com/arielsrv/pets-cli/v0.0.4/install.sh | bash"],
                     shell=True)
 
 
