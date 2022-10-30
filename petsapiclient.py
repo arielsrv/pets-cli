@@ -34,3 +34,18 @@ def get_app_types():
         print(f'HTTP error occurred: {http_err}')
     except Exception as err:
         print(f'Other error occurred: {err}')
+
+
+def get_app(name):
+    try:
+        response = requests.get(pets_api_url + '/search/apps?app_name=' + name)
+        response.raise_for_status()
+
+        result = json.loads(response.text)
+
+        return result
+
+    except HTTPError as http_err:
+        print(f'HTTP error occurred: {http_err}')
+    except Exception as err:
+        print(f'Other error occurred: {err}')

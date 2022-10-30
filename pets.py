@@ -5,7 +5,7 @@ import subprocess
 import click
 import questionary
 
-from petsapiclient import get_groups, get_app_types
+from petsapiclient import get_groups, get_app_types, get_app
 
 gitlab_url = "https://gitlab.tiendanimal.com:8088/"
 
@@ -31,7 +31,8 @@ class MultipleOptions(click.Option):
 @click.argument('name')
 def get(name):
     click.echo('Getting ... ' + name)
-    subprocess.call("git clone https://github.com/DevDungeon/Cookbook " + name, shell=True)
+    result = get_app(name)
+    subprocess.call("git clone " + result['url'] + " " + name, shell=True)
     with open(name + '/.pets', 'w') as f:
         f.write('application_name: ' + name)
 
