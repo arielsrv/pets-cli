@@ -33,8 +33,8 @@ def get(name):
     click.echo('Getting ... ' + name)
     result = petApiClient.get_app(name)
     subprocess.call("git clone " + result['url'] + " " + name, shell=True)
-    with open(name + '/.pets', 'w') as f:
-        f.write('application_name: ' + name)
+    with open(name + '/.pets', 'w') as stream:
+        stream.write('application_name: ' + name)
 
 
 @click.command()
