@@ -5,17 +5,18 @@ import subprocess
 import click
 import questionary
 
-import petsapiclient
-from petsapiclient import get_groups, get_app_types, get_app, create_app
+from clients import PetApiClient
+
+petApiClient = PetApiClient('http://localhost:8080', 'https://gitlab.tiendanimal.com:8088/')
 
 
 @click.group()
+@click.version_option('0.0.1')
 def cli():
     pass
 
 
 class MultipleOptions(click.Option):
-
     def __init__(self, param_decls=None, **attrs):
         click.Option.__init__(self, param_decls, **attrs)
         if not isinstance(self.type, click.Choice):
@@ -30,7 +31,7 @@ class MultipleOptions(click.Option):
 @click.argument('name')
 def get(name):
     click.echo('Getting ... ' + name)
-    result = get_app(name)
+    result = petApiClient.get_app(name)
     subprocess.call("git clone " + result['url'] + " " + name, shell=True)
     with open(name + '/.pets', 'w') as f:
         f.write('application_name: ' + name)
@@ -39,7 +40,7 @@ def get(name):
 @click.command()
 def groups():
     click.echo(click.style('Listing groups ...', fg='cyan'))
-    result = get_groups()
+    result = petApiClient.get_groups()
     for group in result:
         print(group['name'])
 
@@ -47,10 +48,10 @@ def groups():
 @click.command()
 @click.option('-n', '--name', required=True, prompt=True)
 @click.option('-g', '--group', required=True, prompt=True,
-              type=click.Choice(list(map(lambda x: x['name'], get_groups())), case_sensitive=False),
+              type=click.Choice(list(map(lambda x: x['name'], petApiClient.get_groups())), case_sensitive=False),
               cls=MultipleOptions)
 @click.option('-t', '--app_type', required=True, prompt=True,
-              type=click.Choice(list(map(lambda x: x['name'], get_app_types())), case_sensitive=False),
+              type=click.Choice(list(map(lambda x: x['name'], petApiClient.get_app_types())), case_sensitive=False),
               cls=MultipleOptions)
 def create_app(name, group, app_type):
     click.echo('Creating app ... ')
@@ -58,9 +59,9 @@ def create_app(name, group, app_type):
     click.echo('\tGroup: ' + group)
     click.echo('\tApplication Type: ' + app_type)
 
-    group_response = next((x for x in get_groups() if x['name'] == group), None)
-    app_type_response = next((x for x in get_app_types() if x['name'] == app_type), None)
-    create_project_response = petsapiclient.create_app(name, group_response['id'], app_type_response['id'])
+    group_response = next((x for x in petApiClient.get_groups() if x['name'] == group), None)
+    app_type_response = next((x for x in petApiClient.get_app_types() if x['name'] == app_type), None)
+    create_project_response = petApiClient.create_app(name, group_response['id'], app_type_response['id'])
 
     click.echo(click.style('\tRepo Url: ' + create_project_response['url'], fg='cyan'))
 
@@ -70,20 +71,13 @@ def create_app(name, group, app_type):
 
 @click.command()
 def get_token():
-    click.echo(gitlab_token)
+    click.echo(os.environ.get('GITLAB_TOKEN'))
 
 
-def register_commands():
-    cli.add_command(groups)
-    cli.add_command(create_app)
-    cli.add_command(get)
-    cli.add_command(get_token)
+cli.add_command(groups)
+cli.add_command(create_app)
+cli.add_command(get)
+cli.add_command(get_token)
 
-
-register_commands()
-gitlab_token = os.environ.get('GITLAB_TOKEN')
 if __name__ == '__main__':
-    if gitlab_token is not None:
-        cli()
-    else:
-        click.echo(click.style('GITLAB_TOKEN variable is missing', fg='red'), err=True)
+    cli()

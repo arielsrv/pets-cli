@@ -1,11 +1,13 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name="pets",
-    version="1.1",
+    version="0.0.1",
+    description="IskayPet CLI",
     py_modules=[
         "pets",
     ],
+    packages=find_packages(),
     include_package_data=True,
     install_requires=[
         "click",
