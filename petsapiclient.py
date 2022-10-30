@@ -65,7 +65,7 @@ def create_app(name, group_id, app_type_id):
         return result
 
     except HTTPError as http_err:
-        if response.status_code == http.HTTPStatus.CONFLICT:
+        if http_err.response.status_code == http.HTTPStatus.CONFLICT:
             click.echo('')
             click.echo(click.style("project " + name + " already exist", fg='red'))
             raise SystemExit(0)
