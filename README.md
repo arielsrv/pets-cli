@@ -2,9 +2,14 @@ $ pets_
 
 IskayPet CLI.
 
-Usage:
+Installation:
 
 ```bash
 $ curl -o- https://raw.githubusercontent.com/arielsrv/pets-cli/v0.0.3/install.sh | bash
+$ pets
+```
+
+Usage
+```bash
 $ pets
 ```
