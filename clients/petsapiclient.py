@@ -14,7 +14,7 @@ class PetApiClient:
 
     def get_groups(self):
         try:
-            response = requests.get(self.petsapiurl + '/repositories/groups')
+            response = requests.get(self.petsapiurl + '/apps/groups')
             response.raise_for_status()
 
             result = json.loads(response.text)
@@ -57,7 +57,7 @@ class PetApiClient:
     def create_app(self, name, group_id, app_type_id):
         try:
             payload = dict(name=name, group_id=group_id, app_type_id=app_type_id)
-            response = requests.post(self.petsapiurl + '/repositories', json=payload)
+            response = requests.post(self.petsapiurl + '/apps', json=payload)
             response.raise_for_status()
 
             result = json.loads(response.text)
