@@ -49,3 +49,19 @@ def get_app(name):
         print(f'HTTP error occurred: {http_err}')
     except Exception as err:
         print(f'Other error occurred: {err}')
+
+
+def create_app(name, group_id, app_type_id):
+    try:
+        payload = dict(name=name, group_id=group_id, app_type_id=app_type_id)
+        response = requests.post(pets_api_url + '/repositories', json=payload)
+        response.raise_for_status()
+
+        result = json.loads(response.text)
+
+        return result
+
+    except HTTPError as http_err:
+        print(f'HTTP error occurred: {http_err}')
+    except Exception as err:
+        print(f'Other error occurred: {err}')

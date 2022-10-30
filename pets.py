@@ -5,7 +5,8 @@ import subprocess
 import click
 import questionary
 
-from petsapiclient import get_groups, get_app_types, get_app
+import petsapiclient
+from petsapiclient import get_groups, get_app_types, get_app, create_app
 
 gitlab_url = "https://gitlab.tiendanimal.com:8088/"
 
@@ -58,7 +59,12 @@ def create_app(name, group, app_type):
     click.echo('\tName: ' + name)
     click.echo('\tGroup: ' + group)
     click.echo('\tApplication Type: ' + app_type)
-    click.echo(click.style('\tRepo Url: ' + gitlab_url + "/" + group + "/" + name, fg='cyan'))
+
+    group_response = next((x for x in get_groups() if x['name'] == group), None)
+    app_type_response = next((x for x in get_app_types() if x['name'] == app_type), None)
+    create_project_response = petsapiclient.create_app(name, group_response['id'], app_type_response['id'])
+
+    click.echo(click.style('\tRepo Url: ' + create_project_response['url'], fg='cyan'))
 
     click.echo('')
     click.echo('To download app use ' + click.style('pets get ' + name, fg='cyan'))
