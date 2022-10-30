@@ -76,13 +76,15 @@ def get_token():
 
 @click.command()
 def upgrade():
-    click.echo(os.environ.get('GITLAB_TOKEN'))
+    subprocess.call(["curl -o- https://raw.githubusercontent.com/arielsrv/pets-cli/v0.0.3/install.sh | bash"],
+                    shell=True)
 
 
 cli.add_command(groups)
 cli.add_command(create_app)
 cli.add_command(get)
 cli.add_command(get_token)
+cli.add_command(upgrade)
 
 if __name__ == '__main__':
     cli()
