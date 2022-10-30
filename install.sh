@@ -22,3 +22,6 @@ FILE="/usr/local/bin/pets"
 if [ ! -L "$FILE" ]; then
   sudo ln -s "$tempFolder/dist/pets/pets" /usr/local/bin/pets
 fi
+
+eval "$(_PETS_COMPLETE=bash_source pets)"
+eval "$(_PETS_COMPLETE=zsh_source pets)"
