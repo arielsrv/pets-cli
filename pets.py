@@ -74,6 +74,11 @@ def get_token():
     click.echo(os.environ.get('GITLAB_TOKEN'))
 
 
+@click.command()
+def upgrade():
+    click.echo(os.environ.get('GITLAB_TOKEN'))
+
+
 cli.add_command(groups)
 cli.add_command(create_app)
 cli.add_command(get)

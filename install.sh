@@ -1,4 +1,6 @@
-tempFolder="/usr/local/pets-cli"
+#!/usr/bin/env bash
+
+tempFolder="$HOME/.pets-cli"
 appUrl="https://github.com/arielsrv/pets-cli"
 
 if [ -d "$tempFolder" ]; then
