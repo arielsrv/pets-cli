@@ -11,7 +11,7 @@ petApiClient = PetApiClient('http://localhost:8080', 'https://gitlab.tiendanimal
 
 
 @click.group()
-@click.version_option('0.0.4')
+@click.version_option('0.0.5')
 def cli():
     pass
 
@@ -70,7 +70,7 @@ def get_token():
 @click.command()
 def upgrade():
     """Upgrade pets-cli to the latest version."""
-    subprocess.call(["curl -o- https://raw.githubusercontent.com/arielsrv/pets-cli/v0.0.4/install.sh | bash"],
+    subprocess.call(["curl -o- https://raw.githubusercontent.com/arielsrv/pets-cli/v0.0.5/install.sh | bash"],
                     shell=True)
 
 
