@@ -11,7 +11,7 @@ petApiClient = PetApiClient('http://localhost:8080', 'https://gitlab.tiendanimal
 
 
 @click.group()
-@click.version_option('0.0.1')
+@click.version_option('0.0.3')
 def cli():
     pass
 
