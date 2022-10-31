@@ -13,6 +13,7 @@ setup(
         "click",
         "requests",
         "questionary",
+        "diskcache"
     ],
     entry_points="""
         [console_scripts]

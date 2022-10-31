@@ -5,6 +5,10 @@ import click
 import requests
 from requests import HTTPError
 
+from diskcache import Cache
+
+cache = Cache("__pets_cli_cache")
+
 
 class PetApiClient:
 
@@ -12,6 +16,7 @@ class PetApiClient:
         self.petsapiurl = petsapiurl
         self.gitlaburl = gitlaburl
 
+    @cache.memoize(typed=True, expire=60 * 60 * 24 * 7)  # ss * mm * hh * dd
     def get_groups(self):
         try:
             response = requests.get(self.petsapiurl + '/apps/groups')
@@ -26,6 +31,7 @@ class PetApiClient:
         except Exception as err:
             print(f'Other error occurred: {err}')
 
+    @cache.memoize(typed=True, expire=60 * 60 * 24 * 7)  # ss * mm * hh * dd
     def get_app_types(self):
         try:
             response = requests.get(self.petsapiurl + '/apps/types')
