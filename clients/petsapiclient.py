@@ -5,9 +5,8 @@ import click
 import requests
 from requests import HTTPError
 
-from diskcache import Cache
-
-cache = Cache("__pets_cli_cache")
+from clients.responses.appresponse import app_from_dict
+from clients.responses.groupresponse import groupresponse_from_dict
 
 
 class PetApiClient:
@@ -16,13 +15,13 @@ class PetApiClient:
         self.petsapiurl = petsapiurl
         self.gitlaburl = gitlaburl
 
-    @cache.memoize(typed=True, expire=60 * 60 * 24 * 7)  # ss * mm * hh * dd
+    # @cache.memoize(typed=True, expire=60 * 60 * 24 * 7)  # ss * mm * hh * dd
     def get_groups(self):
         try:
             response = requests.get(self.petsapiurl + '/apps/groups')
             response.raise_for_status()
 
-            result = json.loads(response.text)
+            result = groupresponse_from_dict(json.loads(response.text))
 
             return result
 
@@ -31,13 +30,13 @@ class PetApiClient:
         except Exception as err:
             print(f'Other error occurred: {err}')
 
-    @cache.memoize(typed=True, expire=60 * 60 * 24 * 7)  # ss * mm * hh * dd
+    # @cache.memoize(typed=True, expire=60 * 60 * 24 * 7)  # ss * mm * hh * dd
     def get_app_types(self):
         try:
             response = requests.get(self.petsapiurl + '/apps/types')
             response.raise_for_status()
 
-            result = json.loads(response.text)
+            result = groupresponse_from_dict(json.loads(response.text))
 
             return result
 
@@ -51,7 +50,7 @@ class PetApiClient:
             response = requests.get(self.petsapiurl + '/search/apps?app_name=' + name)
             response.raise_for_status()
 
-            result = json.loads(response.text)
+            result = app_from_dict(json.loads(response.text))
 
             return result
 

@@ -21,8 +21,8 @@ def cli():
 def get(name):
     """Get IskayPet app"""
     click.echo('Getting ... ' + name)
-    result = petApiClient.get_app(name)
-    subprocess.call("git clone " + result['url'] + " " + name, shell=True)
+    appresponse = petApiClient.get_app(name)
+    subprocess.call("git clone " + appresponse.url + " " + name, shell=True)
     with open(name + '/.pets', 'w') as stream:
         stream.write('application_name: ' + name)
 
@@ -33,16 +33,17 @@ def groups():
     click.echo(click.style('Listing groups ...', fg='cyan'))
     result = petApiClient.get_groups()
     for group in result:
-        print(group['name'])
+        print(group.name)
 
 
 @click.command()
 @click.option('-n', '--name', required=True, prompt=True)
 @click.option('-g', '--group', required=True, prompt=True,
-              type=click.Choice(list(map(lambda x: x['name'], petApiClient.get_groups())), case_sensitive=False),
+              type=click.Choice(list(map(lambda group: group.name, petApiClient.get_groups())), case_sensitive=False),
               cls=MultipleOptions)
 @click.option('-t', '--app_type', required=True, prompt=True,
-              type=click.Choice(list(map(lambda x: x['name'], petApiClient.get_app_types())), case_sensitive=False),
+              type=click.Choice(list(map(lambda apptype: apptype.name, petApiClient.get_app_types())),
+                                case_sensitive=False),
               cls=MultipleOptions)
 def create_app(name, group, app_type):
     """Creates IskayPet app."""
@@ -51,9 +52,9 @@ def create_app(name, group, app_type):
     click.echo('\tGroup: ' + group)
     click.echo('\tApplication Type: ' + app_type)
 
-    group_response = next((x for x in petApiClient.get_groups() if x['name'] == group), None)
-    app_type_response = next((x for x in petApiClient.get_app_types() if x['name'] == app_type), None)
-    create_project_response = petApiClient.create_app(name, group_response['id'], app_type_response['id'])
+    group_response = next((x for x in petApiClient.get_groups() if x.name == group), None)
+    app_type_response = next((x for x in petApiClient.get_app_types() if x.name == app_type), None)
+    create_project_response = petApiClient.create_app(name, group_response.id, app_type_response.id)
 
     click.echo(click.style('\tRepo Url: ' + create_project_response['url'], fg='cyan'))
 
@@ -74,11 +75,20 @@ def upgrade():
                     shell=True)
 
 
+@click.command()
+def create_version():
+    click.echo('')
+
+
 cli.add_command(groups)
 cli.add_command(create_app)
 cli.add_command(get)
 cli.add_command(get_token)
 cli.add_command(upgrade)
+cli.add_command(create_version)
 
 if __name__ == '__main__':
+    result = petApiClient.get_app_types()
+    for type in list(map(lambda x: x.name, result)):
+        print(type)
     cli()
