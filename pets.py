@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 import os
+import random
+import re
 import subprocess
+import time
 
 import click
 
@@ -75,9 +78,53 @@ def upgrade():
                     shell=True)
 
 
+def validate_version(ctx, param, value):
+    pattern = re.compile(
+        r'^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$')
+    if not re.fullmatch(pattern, value[0]):
+        raise click.BadParameter("Las versiones deben tener formato semver.org")
+
+    return value[0]
+
+
 @click.command()
-def create_version():
-    click.echo('')
+def repo():
+    try:
+        with open('.pets') as f:
+            appname = f.readline().split(':')[1].strip()
+
+            appresponse = petApiClient.get_app(appname)
+            click.echo(appresponse.url)
+
+    except FileNotFoundError:
+        click.echo('Para crear versiones es necesario estar en el directorio de la aplicación. ')
+    except Exception:
+        click.echo('Error interno. Vuelve a descargar la aplicación con el commando get. ')
+
+
+@click.command()
+@click.argument('version', nargs=-1, callback=validate_version, type=click.STRING)
+def create_version(version):
+    try:
+        with open('.pets') as f:
+            appname = f.readline().split(':')[1].strip()
+            click.echo(click.style('Creando versión ' + version + '... ', fg='cyan'))
+
+            items = range(2000)
+
+            def process_slowly(item):
+                time.sleep(0.002 * random.random())
+
+            with click.progressbar(
+                    items, label="Creando versión " + version, fill_char=click.style("#", fg="green")
+            ) as bar:
+                for item in bar:
+                    process_slowly(item)
+
+    except FileNotFoundError:
+        click.echo('Para crear versiones es necesario estar en el directorio de la aplicación. ')
+    except Exception:
+        click.echo('Error interno. Vuelve a descargar la aplicación con el commando get. ')
 
 
 cli.add_command(groups)
@@ -86,9 +133,7 @@ cli.add_command(get)
 cli.add_command(get_token)
 cli.add_command(upgrade)
 cli.add_command(create_version)
+cli.add_command(repo)
 
 if __name__ == '__main__':
-    result = petApiClient.get_app_types()
-    for type in list(map(lambda x: x.name, result)):
-        print(type)
     cli()
