@@ -47,7 +47,7 @@ class PetApiClient:
 
     def get_app(self, name):
         try:
-            response = requests.get(self.petsapiurl + '/search/apps?app_name=' + name)
+            response = requests.get(self.petsapiurl + '/apps/search?app_name=' + name)
             response.raise_for_status()
 
             result = app_from_dict(json.loads(response.text))
