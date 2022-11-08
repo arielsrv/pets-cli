@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="pets",
-    version="0.0.5",
+    version="0.0.6",
     description="IskayPet CLI",
     py_modules=[
         "pets",
@@ -13,7 +13,6 @@ setup(
         "click",
         "requests",
         "questionary",
-        "diskcache"
     ],
     entry_points="""
         [console_scripts]
