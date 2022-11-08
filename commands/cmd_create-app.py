@@ -12,11 +12,11 @@ petApiClient = PetApiClient('http://localhost:8080', 'https://gitlab.tiendanimal
 @click.command("create-app")
 @click.option('-n', '--name')
 @click.option('-g', '--group')
-@click.option('-t', '--app_type')
+@click.option('-t', '--type')
 @pass_environment
-def cli(ctx, name, group, app_type):
+def cli(ctx, name, group, type):
     if not name:
-        name = questionary.text("App name ").ask()
+        name = questionary.text('App name').ask()
 
     if not name:
         sys.exit()
@@ -33,10 +33,10 @@ def cli(ctx, name, group, app_type):
     if not group:
         sys.exit()
 
-    if not app_type:
+    if not type:
         apps_types_names = list(map(lambda x: x.name, petApiClient.get_app_types()))
         app_type = questionary.autocomplete(
-            'Choose a app type ',
+            'Choose a app type',
             choices=apps_types_names,
             match_middle=True,
             style=None,
@@ -48,10 +48,10 @@ def cli(ctx, name, group, app_type):
     click.echo('Creating app ... ')
     click.echo('\tName: ' + name)
     click.echo('\tGroup: ' + group)
-    click.echo('\tApplication Type: ' + app_type)
+    click.echo('\tApplication Type: ' + type)
 
     group_response = next((x for x in petApiClient.get_groups() if x.name == group), None)
-    app_type_response = next((x for x in petApiClient.get_app_types() if x.name == app_type), None)
+    app_type_response = next((x for x in petApiClient.get_app_types() if x.name == type), None)
     create_project_response = petApiClient.create_app(name, group_response.id, app_type_response.id)
 
     click.echo(click.style('\tRepo Url: ' + create_project_response['url'], fg='cyan'))

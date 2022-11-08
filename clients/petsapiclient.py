@@ -15,7 +15,6 @@ class PetApiClient:
         self.petsapiurl = petsapiurl
         self.gitlaburl = gitlaburl
 
-    # @cache.memoize(typed=True, expire=60 * 60 * 24 * 7)  # ss * mm * hh * dd
     def get_groups(self):
         try:
             response = requests.get(self.petsapiurl + '/apps/groups')
