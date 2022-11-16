@@ -11,7 +11,7 @@ def validate_version(ctx, param, value):
     pattern = re.compile(
         r'^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$')
     if not re.fullmatch(pattern, value[0]):
-        raise click.BadParameter("Las versiones deben tener formato semver.org")
+        raise click.BadParameter("Formato de versión inválido. Ej: 0.0.1-hello-world")
 
     return value[0]
 

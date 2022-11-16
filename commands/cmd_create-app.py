@@ -35,14 +35,14 @@ def cli(ctx, name, group, type):
 
     if not type:
         apps_types_names = list(map(lambda x: x.name, petApiClient.get_app_types()))
-        app_type = questionary.autocomplete(
+        type = questionary.autocomplete(
             'Choose a app type',
             choices=apps_types_names,
             match_middle=True,
             style=None,
         ).ask()
 
-    if not app_type:
+    if not type:
         sys.exit()
 
     click.echo('Creating app ... ')

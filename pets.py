@@ -1,7 +1,9 @@
+import json
 import os
 import sys
 
 import click
+import requests
 
 CONTEXT_SETTINGS = dict(auto_envvar_prefix="pets-cli")
 
