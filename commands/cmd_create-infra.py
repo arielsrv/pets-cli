@@ -19,7 +19,19 @@ def cli(ctx):
 def scope(ctx, name):
     appname = get_app_name()
     click.echo(click.style('creando scope ' + name + '... ', fg='cyan'))
-    click.echo(click.style('url: https://{name}.{appname}.iskaypet.io'.format(name=name, appname=appname), fg='cyan'))
+    click.echo()
+    click.echo(
+        click.style('Host: https://{name}.{appname}.iskaypetapps.io'.format(name=name, appname=appname), fg='yellow'))
+    click.echo(click.style(
+        'NewRelic: https://newrelic.com?scope={name}&app_name={appname}'.format(name=name, appname=appname),
+        fg='cyan'))
+    click.echo(click.style(
+        'Logs: https://kibana.com?scope={name}&app_name={appname}'.format(name=name, appname=appname),
+        fg='cyan'))
+    click.echo(click.style(
+        'Metrics: https://datadog.com?scope={name}&app_name={appname}'.format(name=name, appname=appname),
+        fg='cyan'))
+    click.echo()
 
 
 @click.command()
