@@ -22,15 +22,14 @@ def validate_version(ctx, param, value):
 @pass_environment
 def cli(ctx, version):
     appname = get_app_name()
-    click.echo(click.style('Creando versión ' + version + '... ', fg='cyan'))
 
     items = range(2000)
 
-    def process_slowly(item):
+    def process_slowly():
         time.sleep(0.002 * random.random())
 
     with click.progressbar(
             items, label="Creando versión " + version, fill_char=click.style("#", fg="green")
     ) as bar:
-        for item in bar:
-            process_slowly(item)
+        for _ in bar:
+            process_slowly()

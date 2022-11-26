@@ -26,7 +26,9 @@ def scope(ctx, name):
 @click.option('-n', '--name')
 @click.option('-v', '--value')
 @pass_environment
-def secret():
+def secret(ctx, name, value):
+    click.echo(name)
+    click.echo(value)
     click.echo('Secret created.')
 
 

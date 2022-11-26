@@ -8,6 +8,14 @@ from pets import pass_environment
 
 petApiClient = PetApiClient('http://localhost:8080', 'https://gitlab.tiendanimal.com:8088/')
 
+from questionary import Style
+
+custom_style_fancy = Style(
+    [
+        ("answer", "fg:#8fce00 bg:#000000 bold"),
+    ]
+)
+
 
 @click.command("create-app")
 @click.option('-n', '--name')
@@ -16,7 +24,7 @@ petApiClient = PetApiClient('http://localhost:8080', 'https://gitlab.tiendanimal
 @pass_environment
 def cli(ctx, name, group, type):
     if not name:
-        name = questionary.text('App name').ask()
+        name = questionary.text('App name', style=custom_style_fancy).ask()
 
     if not name:
         sys.exit()
@@ -27,7 +35,7 @@ def cli(ctx, name, group, type):
             'Choose a group',
             choices=groups_names,
             match_middle=True,
-            style=None,
+            style=custom_style_fancy
         ).ask()
 
     if not group:
@@ -39,7 +47,7 @@ def cli(ctx, name, group, type):
             'Choose a app type',
             choices=apps_types_names,
             match_middle=True,
-            style=None,
+            style=custom_style_fancy,
         ).ask()
 
     if not type:

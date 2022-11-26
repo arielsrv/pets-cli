@@ -6,7 +6,7 @@ from pets import pass_environment
 petApiClient = PetApiClient('http://localhost:8080', 'https://gitlab.tiendanimal.com:8088/')
 
 
-@click.command("repo")
+@click.command("info")
 @pass_environment
 def cli(ctx):
     try:

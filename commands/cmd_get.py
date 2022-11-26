@@ -12,7 +12,6 @@ petApiClient = PetApiClient('http://localhost:8080', 'https://gitlab.tiendanimal
 @click.argument('name')
 @pass_environment
 def cli(ctx, name):
-    """Get IskayPet app"""
     click.echo('Getting ... ' + name)
     appresponse = petApiClient.get_app(name)
     subprocess.call("git clone " + appresponse.url + " " + name, shell=True)
