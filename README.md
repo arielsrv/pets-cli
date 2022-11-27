@@ -2,10 +2,9 @@ IskayPet Pets CLI.
 
 * [Layers](#layers)
 * [Source](#source)
-  * [Python install](#python-install)
-  * [Develop](#develop)
+    * [Python install](#python-install)
+    * [Develop](#develop)
 * [Redistributable](#redistributable)
-
 
 ## Layers
 
