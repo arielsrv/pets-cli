@@ -5,7 +5,7 @@ import time
 import click
 
 from common.pets_file import get_app_name
-from pets import pass_environment
+from pets import pass_environment, PETS_FILE_NAME
 
 
 def validate_version(ctx, param, value):
@@ -21,7 +21,7 @@ def validate_version(ctx, param, value):
 @click.argument('version', nargs=-1, callback=validate_version, type=click.STRING)
 @pass_environment
 def cli(ctx, version):
-    appname = get_app_name()
+    appname = get_app_name(PETS_FILE_NAME)
 
     items = range(2000)
 

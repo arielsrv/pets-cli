@@ -5,6 +5,8 @@ import click
 
 CONTEXT_SETTINGS = dict(auto_envvar_prefix="pets-cli")
 
+PETS_FILE_NAME = ".pets"
+
 
 class Environment:
     def __init__(self):
