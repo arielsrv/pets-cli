@@ -1,12 +1,12 @@
 IskayPet Pets CLI.
 
-# Layers
+## Layers
 
 ![img.png](img.png)
 
-# Source
+## Source
 
-## Python install
+### Python install
 
 ```bash
 brew install python
@@ -21,7 +21,7 @@ pip install pytest
 pip install --editable .
 ```
 
-# Redistributable:
+## Redistributable:
 
 ```bash
 curl -o- https://raw.githubusercontent.com/arielsrv/pets-cli/v0.0.8/install.sh | bash
