@@ -7,3 +7,5 @@ build
 dist
 .DS_Store
 __pets_cli_cache
+.coverage
+coverage.xml
