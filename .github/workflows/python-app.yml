@@ -40,7 +40,7 @@ jobs:
       - name: Test report
         run: |
           pytest --cov-report xml:coverage.xml --cov=src src/tests
-      - name: Python Coverage
+      - name: Test Coverage
         uses: orgoro/coverage@v3
 
           
