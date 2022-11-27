@@ -9,7 +9,7 @@
 from dataclasses import dataclass
 from typing import Any, List
 
-from common.jsonparser import from_int, from_str, from_list, to_class
+from src.pets.common.jsonparser import from_int, from_str, from_list, to_class
 
 
 @dataclass

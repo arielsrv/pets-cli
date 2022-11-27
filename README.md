@@ -1,5 +1,3 @@
-$ pets_
-
 IskayPet CLI.
 
 Installation:

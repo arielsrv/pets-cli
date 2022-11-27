@@ -2,7 +2,7 @@ import subprocess
 
 import click
 
-from pets import pass_environment
+from src.pets.pets import pass_environment
 
 
 @click.command("upgrade")

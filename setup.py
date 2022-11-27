@@ -16,6 +16,6 @@ setup(
     ],
     entry_points="""
         [console_scripts]
-        pets=pets:cli
+        pets=src.pets.pets:cli
     """,
 )

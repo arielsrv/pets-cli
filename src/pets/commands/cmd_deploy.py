@@ -1,6 +1,6 @@
 import click
 
-from clients import PetApiClient
+from src.pets.clients.petsapiclient import PetApiClient
 
 petApiClient = PetApiClient('http://localhost:8080', 'https://gitlab.tiendanimal.com:8088/')
 

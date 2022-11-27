@@ -3,8 +3,8 @@ import sys
 import click
 import questionary
 
-from clients import PetApiClient
-from pets import pass_environment
+from src.pets.clients.petsapiclient import PetApiClient
+from src.pets.pets import pass_environment
 
 petApiClient = PetApiClient('http://localhost:8080', 'https://gitlab.tiendanimal.com:8088/')
 

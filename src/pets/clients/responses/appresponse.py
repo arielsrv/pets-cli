@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Any
 
-from common.jsonparser import from_int, from_str, to_class
+from src.pets.common.jsonparser import from_int, from_str, to_class
 
 
 @dataclass

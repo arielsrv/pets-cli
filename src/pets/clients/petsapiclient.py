@@ -5,8 +5,8 @@ import click
 import requests
 from requests import HTTPError
 
-from clients.responses.appresponse import app_from_dict
-from clients.responses.groupresponse import groupresponse_from_dict
+from src.pets.clients.responses.appresponse import app_from_dict
+from src.pets.clients.responses.groupresponse import groupresponse_from_dict
 
 
 class PetApiClient:

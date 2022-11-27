@@ -4,8 +4,8 @@ import time
 
 import click
 
-from common.pets_file import get_app_name
-from pets import pass_environment, PETS_FILE_NAME
+from src.pets.common.pets_file import get_app_name
+from src.pets.pets import PETS_FILE_NAME, pass_environment
 
 
 def validate_version(ctx, param, value):
