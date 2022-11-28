@@ -1,10 +1,9 @@
 import click
 
-from pets import pets
-from pets.clients.petsapiclient import PetApiClient
-from pets.common.pets_file import get_app_name
-from pets.consts.urls import PETS_API_URL, GITLAB_API_URL, PETS_FILE_NAME
-from pets.pets import pass_environment
+from clients.petsapi import PetApiClient
+from common.pets_file import get_app_name
+from consts.urls import PETS_API_URL, GITLAB_API_URL, PETS_FILE_NAME
+from pets import pass_environment
 
 petApiClient = PetApiClient(PETS_API_URL, GITLAB_API_URL)
 
@@ -46,7 +45,7 @@ def secret(ctx, name, value):
 
     secretresponse = petApiClient.create_secret(appresponse.id, name, value)
 
-    apiUrl = "{baseUrl}{snippetUrl}".format(baseUrl=pets.pets.PETS_API_URL, snippetUrl=secretresponse.snippet_url)
+    apiUrl = "{baseUrl}{snippetUrl}".format(baseUrl=PETS_API_URL, snippetUrl=secretresponse.snippet_url)
     click.echo('Secret created: {apiUrl}'.format(apiUrl=apiUrl))
 
 

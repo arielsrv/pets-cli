@@ -3,12 +3,12 @@ import sys
 import click
 import questionary
 
-from pets.clients.petsapiclient import PetApiClient
-from pets.consts.urls import PETS_API_URL, GITLAB_API_URL
-from pets.pets import pass_environment
+from pets import pass_environment
+from clients.petsapi import PetApiClient
+from pets import GITLAB_API_URL, PETS_API_URL
+
 
 petApiClient = PetApiClient(PETS_API_URL, GITLAB_API_URL)
-
 from questionary import Style
 
 custom_style_fancy = Style(

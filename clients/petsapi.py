@@ -5,11 +5,11 @@ import click
 import requests
 from requests import HTTPError
 
-from pets.clients.responses.appresponse import AppResponse
-from pets.clients.responses.apptyperesponse import AppTypeResponse
-from pets.clients.responses.groupresponse import GroupResponse
-from pets.clients.responses.secretresponse import SecretResponse
-from pets.common.jsonextensions import from_list
+from clients.responses.appresponse import AppResponse
+from clients.responses.apptyperesponse import AppTypeResponse
+from clients.responses.groupresponse import GroupResponse
+from clients.responses.secretresponse import SecretResponse
+from common.jsonextensions import from_list
 
 
 class PetApiClient:
@@ -30,7 +30,6 @@ class PetApiClient:
         except Exception as err:
             print(f'Other error occurred: {err}')
 
-    # @cache.memoize(typed=True, expire=60 * 60 * 24 * 7)  # ss * mm * hh * dd
     def get_app_types(self):
         try:
             response = requests.get(self.petsapiurl + '/apps/types')

@@ -1,6 +1,6 @@
 import unittest
 
-from pets.common.pets_file import get_app_name
+from common.pets_file import get_app_name
 
 
 class PetsFileTest(unittest.TestCase):

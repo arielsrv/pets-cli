@@ -5,7 +5,7 @@ setup(
     version="0.0.8",
     description="IskayPet CLI",
     py_modules=[
-        "pets"
+        "pets",
     ],
     packages=find_packages(),
     include_package_data=True,
@@ -13,9 +13,10 @@ setup(
         "click",
         "requests",
         "questionary",
+        "dataclasses_json"
     ],
     entry_points="""
         [console_scripts]
-        pets=pets.pets:cli
+        pets=pets:cli
     """,
 )

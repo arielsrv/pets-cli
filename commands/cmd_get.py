@@ -2,8 +2,8 @@ from subprocess import call
 
 import click
 
-from pets.clients.petsapiclient import PetApiClient
-from pets.pets import pass_environment
+from clients.petsapi import PetApiClient
+from pets import pass_environment
 
 petApiClient = PetApiClient("PETS_API_URL", "GITLAB_API_URL")
 

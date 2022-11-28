@@ -2,7 +2,7 @@ import unittest
 
 from click.testing import CliRunner
 
-from pets.commands.cmd_version import cli
+from commands.cmd_version import cli
 
 
 class CmdVersionTest(unittest.TestCase):

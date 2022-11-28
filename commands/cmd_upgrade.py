@@ -2,8 +2,7 @@ import subprocess
 
 import click
 
-from pets.pets import pass_environment
-
+from pets import pass_environment
 
 @click.command("upgrade")
 @pass_environment
