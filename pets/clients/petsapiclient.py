@@ -9,6 +9,7 @@ from pets.clients.responses.appresponse import AppResponse
 from pets.clients.responses.apptyperesponse import AppTypeResponse
 from pets.clients.responses.groupresponse import GroupResponse
 from pets.clients.responses.secretresponse import SecretResponse
+from pets.common.jsonextensions import from_list
 
 
 class PetApiClient:
@@ -22,9 +23,7 @@ class PetApiClient:
             response = requests.get(self.petsapiurl + '/apps/groups')
             response.raise_for_status()
 
-            result = GroupResponse.from_dict(json.loads(response.text))
-
-            return result
+            return from_list(GroupResponse.from_dict, json.loads(response.text))
 
         except HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')
@@ -37,9 +36,7 @@ class PetApiClient:
             response = requests.get(self.petsapiurl + '/apps/types')
             response.raise_for_status()
 
-            result = AppTypeResponse.from_dict(json.loads(response.text))
-
-            return result
+            return from_list(AppTypeResponse.from_dict, json.loads(response.text))
 
         except HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')
