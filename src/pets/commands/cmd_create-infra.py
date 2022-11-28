@@ -1,11 +1,12 @@
 import click
 
-import src.pets.pets
+import src
 from src.pets.clients.petsapiclient import PetApiClient
 from src.pets.common.pets_file import get_app_name
-from src.pets.pets import pass_environment, PETS_FILE_NAME
+from src.pets.consts.consts import PETS_API_URL, GITLAB_API_URL, PETS_FILE_NAME
+from src.pets.pets import pass_environment
 
-petApiClient = PetApiClient(src.pets.pets.PETS_API_URL, src.pets.pets.GITLAB_API_URL)
+petApiClient = PetApiClient(PETS_API_URL, GITLAB_API_URL)
 
 
 @click.group("create-infra")
