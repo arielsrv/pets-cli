@@ -1,10 +1,11 @@
 import click
 
+import src.pets.pets
 from src.pets.clients.petsapiclient import PetApiClient
 from src.pets.common.pets_file import get_app_name
 from src.pets.pets import pass_environment, PETS_FILE_NAME
 
-petApiClient = PetApiClient('http://localhost:8080', 'https://gitlab.tiendanimal.com:8088/')
+petApiClient = PetApiClient(src.pets.pets.PETS_API_URL, src.pets.pets.GITLAB_API_URL)
 
 
 @click.group("create-infra")
@@ -39,9 +40,13 @@ def scope(ctx, name):
 @click.option('-v', '--value')
 @pass_environment
 def secret(ctx, name, value):
-    click.echo(name)
-    click.echo(value)
-    click.echo('Secret created.')
+    appName = get_app_name(PETS_FILE_NAME)
+    appresponse = petApiClient.get_app(appName)
+
+    secretresponse = petApiClient.create_secret(appresponse.id, name, value)
+
+    apiUrl = "{baseUrl}{snippetUrl}".format(baseUrl=src.pets.pets.PETS_API_URL, snippetUrl=secretresponse.snippet_url)
+    click.echo('Secret created: {apiUrl}'.format(apiUrl=apiUrl))
 
 
 cli.add_command(scope)

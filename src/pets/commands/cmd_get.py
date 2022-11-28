@@ -1,11 +1,11 @@
-import subprocess
+from subprocess import call
 
 import click
 
 from src.pets.clients.petsapiclient import PetApiClient
-from src.pets.pets import pass_environment
+from src.pets.pets import pass_environment, PETS_API_URL, GITLAB_API_URL
 
-petApiClient = PetApiClient('http://localhost:8080', 'https://gitlab.tiendanimal.com:8088/')
+petApiClient = PetApiClient(PETS_API_URL, GITLAB_API_URL)
 
 
 @click.command("get")
@@ -14,6 +14,6 @@ petApiClient = PetApiClient('http://localhost:8080', 'https://gitlab.tiendanimal
 def cli(ctx, name):
     click.echo('Getting ... ' + name)
     appresponse = petApiClient.get_app(name)
-    subprocess.call("git clone " + appresponse.url + " " + name, shell=True)
+    call("git clone " + appresponse.url + " " + name, shell=True)
     with open(name + '/.pets', 'w') as stream:
         stream.write('application_name: ' + name)

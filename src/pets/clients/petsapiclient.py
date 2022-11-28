@@ -7,6 +7,7 @@ from requests import HTTPError
 
 from src.pets.clients.responses.appresponse import app_from_dict
 from src.pets.clients.responses.groupresponse import groupresponse_from_dict
+from src.pets.clients.responses.secretresponse import SecretResponse
 
 
 class PetApiClient:
@@ -72,6 +73,25 @@ class PetApiClient:
             if http_err.response.status_code == http.HTTPStatus.CONFLICT:
                 click.echo('')
                 click.echo(click.style("project " + name + " already exist", fg='red'))
+                raise SystemExit(0)
+
+            print(f'HTTP error occurred: {http_err}')
+        except Exception as err:
+            print(f'Other error occurred: {err}')
+
+    def create_secret(self, appId, key, value):
+        try:
+            payload = dict(key=key, value=value)
+            apiUrl = "{baseUrl}/apps/{appId}/secrets".format(baseUrl=self.petsapiurl, appId=appId)
+            response = requests.post(apiUrl, json=payload)
+            response.raise_for_status()
+
+            return SecretResponse.from_dict(json.loads(response.text))
+
+        except HTTPError as http_err:
+            if http_err.response.status_code == http.HTTPStatus.CONFLICT:
+                click.echo('')
+                click.echo(click.style("secret " + key + " already exist", fg='red'))
                 raise SystemExit(0)
 
             print(f'HTTP error occurred: {http_err}')

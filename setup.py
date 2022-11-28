@@ -5,7 +5,7 @@ setup(
     version="0.0.8",
     description="IskayPet CLI",
     py_modules=[
-        "pets",
+        "pets"
     ],
     packages=find_packages(),
     include_package_data=True,
