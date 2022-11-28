@@ -1,6 +1,7 @@
 import click
 
-from pets import pass_environment
+from pets.main import pass_environment
+
 
 @click.command("version")
 @pass_environment

@@ -4,10 +4,10 @@ import time
 
 import click
 
-from clients.petsapi import PetApiClient
-from common.pets_file import get_app_name
-from consts.urls import PETS_API_URL, GITLAB_API_URL, PETS_FILE_NAME
-from pets import pass_environment
+from pets.clients.petsapi import PetApiClient
+from pets.common.pets_file import get_app_name
+from pets.consts.urls import PETS_API_URL, GITLAB_API_URL, PETS_FILE_NAME
+from pets.main import pass_environment
 
 petApiClient = PetApiClient(PETS_API_URL, GITLAB_API_URL)
 

@@ -5,10 +5,6 @@ import click
 
 CONTEXT_SETTINGS = dict(auto_envvar_prefix="pets-cli")
 
-PETS_FILE_NAME = '.pets'
-PETS_API_URL = 'http://localhost:8080'
-GITLAB_API_URL = 'https://gitlab.tiendanimal.com:8088/'
-
 
 class Environment:
     def __init__(self):
@@ -43,7 +39,7 @@ class ComplexCLI(click.MultiCommand):
 
     def get_command(self, ctx, name):
         try:
-            mod = __import__(f"commands.cmd_{name}", None, None, ["cli"])
+            mod = __import__(f"pets.commands.cmd_{name}", None, None, ["cli"])
         except ImportError as importError:
             print(importError)
             return

@@ -5,11 +5,11 @@ import click
 import requests
 from requests import HTTPError
 
-from clients.responses.appresponse import AppResponse
-from clients.responses.apptyperesponse import AppTypeResponse
-from clients.responses.groupresponse import GroupResponse
-from clients.responses.secretresponse import SecretResponse
-from common.jsonextensions import from_list
+from pets.clients.responses.appresponse import AppResponse
+from pets.clients.responses.apptyperesponse import AppTypeResponse
+from pets.clients.responses.groupresponse import GroupResponse
+from pets.clients.responses.secretresponse import SecretResponse
+from pets.common.jsonextensions import from_list
 
 
 class PetApiClient:
