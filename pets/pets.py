@@ -39,7 +39,7 @@ class ComplexCLI(click.MultiCommand):
 
     def get_command(self, ctx, name):
         try:
-            mod = __import__(f"src.pets.commands.cmd_{name}", None, None, ["cli"])
+            mod = __import__(f"pets.commands.cmd_{name}", None, None, ["cli"])
         except ImportError:
             return
         return mod.cli

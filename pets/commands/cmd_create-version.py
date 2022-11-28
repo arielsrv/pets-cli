@@ -4,10 +4,12 @@ import time
 
 import click
 
-from src.pets.common.pets_file import get_app_name
-from src.pets.consts.consts import PETS_FILE_NAME
-from src.pets.pets import pass_environment
+from pets.clients.petsapiclient import PetApiClient
+from pets.common.pets_file import get_app_name
+from pets.consts.urls import PETS_API_URL, GITLAB_API_URL, PETS_FILE_NAME
+from pets.pets import pass_environment
 
+petApiClient = PetApiClient(PETS_API_URL, GITLAB_API_URL)
 
 def validate_version(ctx, param, value):
     pattern = re.compile(
