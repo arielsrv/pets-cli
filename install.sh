@@ -14,7 +14,7 @@ python3 -m pip install --upgrade pip setuptools wheel
 pip install -U pyinstaller
 (
   cd "$tempFolder" || exit
-  pyinstaller src/pets/pets.py
+  pyinstaller pets/main.py
 )
 
 echo "$tempFolder/dist/pets/pets"
