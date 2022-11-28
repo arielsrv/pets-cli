@@ -5,8 +5,9 @@ import click
 import requests
 from requests import HTTPError
 
-from pets.clients.responses.appresponse import app_from_dict
-from pets.clients.responses.groupresponse import groupresponse_from_dict
+from pets.clients.responses.appresponse import AppResponse
+from pets.clients.responses.apptyperesponse import AppTypeResponse
+from pets.clients.responses.groupresponse import GroupResponse
 from pets.clients.responses.secretresponse import SecretResponse
 
 
@@ -21,7 +22,7 @@ class PetApiClient:
             response = requests.get(self.petsapiurl + '/apps/groups')
             response.raise_for_status()
 
-            result = groupresponse_from_dict(json.loads(response.text))
+            result = GroupResponse.from_dict(json.loads(response.text))
 
             return result
 
@@ -36,7 +37,7 @@ class PetApiClient:
             response = requests.get(self.petsapiurl + '/apps/types')
             response.raise_for_status()
 
-            result = groupresponse_from_dict(json.loads(response.text))
+            result = AppTypeResponse.from_dict(json.loads(response.text))
 
             return result
 
@@ -50,7 +51,7 @@ class PetApiClient:
             response = requests.get(self.petsapiurl + '/apps/search?app_name=' + name)
             response.raise_for_status()
 
-            result = app_from_dict(json.loads(response.text))
+            result = AppResponse.from_dict(json.loads(response.text))
 
             return result
 
