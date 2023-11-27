@@ -2,4 +2,4 @@ click==8.1.7
 requests==2.31.0
 setuptools==68.1.2
 questionary==2.0.0
-dataclasses_json~=0.5.7
+dataclasses_json~=0.6.3
